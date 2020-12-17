@@ -28,9 +28,9 @@ export const Login = ({ login, isAuthenticated }) => {
   if (isAuthenticated) {
     const user = JSON.parse(localStorage.getItem("data"));
     if (user.roles.includes("ROLE_ADMIN")) {
-      return <Redirect to="/dashboard1"></Redirect>;
+      return <Redirect to="/admin"></Redirect>;
     } else {
-      return <Redirect to="/usage"></Redirect>;
+      return <Redirect to="/user"></Redirect>;
     }
   }
   return (

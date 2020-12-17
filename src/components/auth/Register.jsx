@@ -10,8 +10,10 @@ const Register = ({ registerUser, isAuthenticated }) => {
     email: "",
     password: "",
     password2: "",
+    role1: "",
+    role2: "",
   });
-  const { username, email, password, password2 } = formData;
+  const { username, email, password, password2, role1, role2 } = formData;
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -22,20 +24,20 @@ const Register = ({ registerUser, isAuthenticated }) => {
       username: username,
       email: email,
       password: password,
-      role: ["user"],
+      role: [role1, role2],
     };
     e.preventDefault();
     console.log("hello from submit");
-    console.log(JSON.stringify(formData));
+    console.log(JSON.stringify(newUser));
     if (password !== password2) {
       console.log("problem");
     } else {
       //action
-      registerUser(formData);
+      registerUser(newUser);
     }
   };
   if (isAuthenticated === true) {
-    return <Redirect to="/dashboard"></Redirect>;
+    return <Redirect to="/login"></Redirect>;
   }
 
   return (
@@ -66,10 +68,6 @@ const Register = ({ registerUser, isAuthenticated }) => {
                   value={email}
                   onChange={onChange}
                 />
-                <small className="form-text text-muted">
-                  This site uses Gravatar so if you want a profile image, use a
-                  Gravatar email
-                </small>
               </div>
               <div className="form-group">
                 <input
@@ -88,6 +86,26 @@ const Register = ({ registerUser, isAuthenticated }) => {
                   placeholder="Confirm Password"
                   name="password2"
                   value={password2}
+                  onChange={onChange}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control form-control-lg"
+                  placeholder="Role 1"
+                  name="role1"
+                  value={role1}
+                  onChange={onChange}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control form-control-lg"
+                  placeholder="Role 2"
+                  name="role2"
+                  value={role2}
                   onChange={onChange}
                 />
               </div>

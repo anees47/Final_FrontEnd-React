@@ -4,11 +4,7 @@ import { connect } from "react-redux";
 import { getUser } from "../../redux/actions/authAction";
 
 export const Usage = ({ getUser, isAuthenticated }) => {
-  console.log(1);
   const onSubmit = (e) => {
-    console.log("2");
-
-    console.log("3");
     getUser();
   };
   return (

@@ -6,42 +6,67 @@ import { logout } from "../../redux/actions/authAction";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
 
 const Header = ({ auth: { isAuthenticated }, logout }) => {
-  const value = JSON.parse(localStorage.getItem("data")).roles.includes(
-    "ROLE_USER"
-  );
+  let value,
+    value1 = 0;
+  if (JSON.parse(localStorage.getItem("data"))) {
+    if (JSON.parse(localStorage.getItem("data").includes("ROLE_ADMIN"))) {
+      value = 2;
+    } else {
+      value = 1;
+    }
+  } else {
+    value = 0;
+  }
+
+  if (JSON.parse(localStorage.getItem("isAuth"))) {
+    value1 = 1;
+  } else {
+    value1 = 0;
+  }
 
   const adminLinks = (
     <Navbar>
       <NavDropdown title="Product">
-        <NavDropdown.Item href="/createProduct">
+        <NavDropdown.Item href="/product/create">
           Create Product
         </NavDropdown.Item>
-        <NavDropdown.Item href="/deleteProduct">
+        <NavDropdown.Item href="/product/update">
+          Update Product
+        </NavDropdown.Item>
+        <NavDropdown.Item href="/product/delete">
           Delete Product
         </NavDropdown.Item>
+        <NavDropdown.Item href="/product/getProductById">
+          Get Product By Id
+        </NavDropdown.Item>
+
       </NavDropdown>
 
       <NavDropdown title="Price">
-        <NavDropdown.Item href="/createPrice">Create Price</NavDropdown.Item>
-        <NavDropdown.Item href="/deletePrice">Delete Prrice</NavDropdown.Item>
+        <NavDropdown.Item href="/price/create">Create Price</NavDropdown.Item>
+        <NavDropdown.Item href="/price/update">Update Price</NavDropdown.Item>
+        <NavDropdown.Item href="/price/delete">Delete Price</NavDropdown.Item>
+        <NavDropdown.Item href="/price/getPriceById">Get Price</NavDropdown.Item>
       </NavDropdown>
 
       <NavDropdown title="Stock">
-        <NavDropdown.Item href="/createStock">Create Stock</NavDropdown.Item>
-        <NavDropdown.Item href="/deleteStock">Delete Stock</NavDropdown.Item>
+        <NavDropdown.Item href="/stock/create">Create Stock</NavDropdown.Item>
+        <NavDropdown.Item href="/stock/update">Update Stock</NavDropdown.Item>
+        <NavDropdown.Item href="/stock/delete">Delete Stock</NavDropdown.Item>
+        <NavDropdown.Item href="/stock/getStockById">Get Stock</NavDropdown.Item>
       </NavDropdown>
 
       <NavDropdown title="Review">
-        <NavDropdown.Item href="/createReview">Create Review</NavDropdown.Item>
-        <NavDropdown.Item href="/deleteReview">
-          Delete a Review
-        </NavDropdown.Item>
+        <NavDropdown.Item href="/review/create">Create Review</NavDropdown.Item>
+        <NavDropdown.Item href="/review/update">Update Review</NavDropdown.Item>
+        <NavDropdown.Item href="/review/delete">Delete Review</NavDropdown.Item>
+        <NavDropdown.Item href="/review/getReviewById">Get Review</NavDropdown.Item>
       </NavDropdown>
-      <NavLink to="/findProduct" style={{ marginRight: 10 }}>
+      <NavLink to="/user" style={{ marginRight: 10 }}>
         Find product
       </NavLink>
       <NavItem>
-        <a onClick={logout} href="#!" style={{ marginRight: 10 }}>
+        <a onClick={logout} href="/" style={{ marginRight: 10 }}>
           <i className="fas fa-sign-out-alt" />{" "}
           <span className="hide-sm">Logout</span>
         </a>
@@ -50,19 +75,21 @@ const Header = ({ auth: { isAuthenticated }, logout }) => {
   );
   const userLinks = (
     <Navbar>
-      <NavLink to="/findProduct" style={{ marginRight: 10 }}>
+      <NavLink to="/user" style={{ marginRight: 10 }}>
         Find product
       </NavLink>
 
       <NavDropdown title="Review">
-        <NavDropdown.Item href="/createReview">Create Review</NavDropdown.Item>
-        <NavDropdown.Item href="/deleteReview">
-          Delete a Review
+        <NavDropdown.Item href="/review/create">Create Review</NavDropdown.Item>
+        <NavDropdown.Item href="/review/delete">
+          Delete Review
         </NavDropdown.Item>
+        <NavDropdown.Item href="/review/update">Update Review</NavDropdown.Item>
       </NavDropdown>
+     
 
       <NavItem>
-        <a onClick={logout} href="#!" style={{ marginRight: 10 }}>
+        <a onClick={logout} href="/" style={{ marginRight: 10 }}>
           <i className="fas fa-sign-out-alt" />{" "}
           <span className="hide-sm">Logout</span>
         </a>
@@ -91,9 +118,13 @@ const Header = ({ auth: { isAuthenticated }, logout }) => {
       </h1>
       <Fragment>
         {isAuthenticated === true
-          ? value
-            ? userLinks
-            : adminLinks
+          ? value === 2
+            ? adminLinks
+            : userLinks
+          : value1 === 1
+          ? value === 2
+            ? adminLinks
+            : userLinks
           : guestLinks}
       </Fragment>
     </nav>
